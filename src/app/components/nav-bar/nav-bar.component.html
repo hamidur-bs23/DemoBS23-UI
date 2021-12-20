@@ -1,0 +1,7 @@
+<div class="navbar">
+    <ul>
+        <li *ngFor="let navItem of navItems">
+            <a [routerLink]='[navItem.link]' >{{ navItem.name }}</a>
+        </li>
+    </ul>
+</div>
