@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NotFoundError } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { first, NotFoundError } from 'rxjs';
 import { AppError } from 'src/app/common/error-exceptions/app-error';
 import { BadInputError } from 'src/app/common/error-exceptions/bad-input-error';
-import { UserLoginModel } from 'src/app/models/user-login.model';
+import { User } from 'src/app/models/user.mode';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -13,64 +14,44 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  submitted = false;
+
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
-
-  userInfoForLoggin : UserLoginModel = {
-    email: "",
-    password: ""
-  }
-
-  loggedUserInfo: any = {
-    token: "",
-    refreshToken: ""
-  };
-
-  // onSubmit(loginForm: NgForm){
-  //   console.log(loginForm);
-  //   console.log(this.model);
-
-  //   let userCredForLogin = {
-  //     email: this.model.email,
-  //     password: this.model.password
-  //   };
-
-  //   this.authService.onLogin(userCredForLogin);
-  // }
 
 
   onSubmit(loginForm: NgForm){
     console.log(loginForm);
 
-    this.userInfoForLoggin.email = loginForm.controls['email'].value;
-    this.userInfoForLoggin.password = loginForm.controls['password'].value;
-    console.log(this.userInfoForLoggin);
+    this.submitted = true;
 
-    this.authService.onLogin(this.userInfoForLoggin)
+    if(loginForm.invalid)
+      return;
+
+    
+    this.authService.login(loginForm.controls['email'].value, loginForm.controls['password'].value)
+      .pipe(first())
       .subscribe({
         next: (response: any) => {
-          console.log(response);
-
-          if(response['Token']){
-            this.loggedUserInfo.token = response['Token'];
-            this.loggedUserInfo.refreshToken = response['RefreshToken'];
-
-            console.log("Logged User Info - ", this.loggedUserInfo);
-
-            localStorage.setItem('token', this.loggedUserInfo.token);
-            localStorage.setItem('refreshtoken', this.loggedUserInfo.refreshToken);
-          }
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigateByUrl(returnUrl);
         },
         error: (err: AppError) => {
+
           if(err instanceof BadInputError) {
             console.log("Bad Input Error - ", err.originalError);            
           } else if(err instanceof NotFoundError) {
             console.log("Not Found Error - ", err.originalError)
           } else {
-            throw err;
+            // throw err;
+            console.log("Error - ", err);
           }
+
         }
       });
   }

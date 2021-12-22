@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppError } from 'src/app/common/error-exceptions/app-error';
 import { BadInputError } from 'src/app/common/error-exceptions/bad-input-error';
 import { UserRegistrationModel } from 'src/app/models/user-registration.model';
@@ -12,15 +13,13 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
-
-  registeredUserInfo: any = {
-    token: "",
-    refreshToken: ""
-  };
 
   newUserModel : UserRegistrationModel = {
     username: "",
@@ -30,27 +29,33 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(registerForm: NgForm){
     console.log(registerForm);
-    console.log(this.newUserModel);
 
-    this.authService.onRegister(this.newUserModel)
+    if(registerForm.invalid)
+      return;
+
+    this.authService.register(this.newUserModel)
       .subscribe({
         next: (response: any) => {
-          console.log(response);
+
           if(response['Token']){
-            this.registeredUserInfo.token = response['Token'];
-            this.registeredUserInfo.refreshToken = response['RefreshToken'];
+            sessionStorage.setItem('token', response['Token']);
 
-            console.log(this.registeredUserInfo);
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/login';
+            this.router.navigateByUrl(returnUrl);
 
-            sessionStorage.setItem('token', this.registeredUserInfo.token);
-            sessionStorage.setItem('refreshtoken', this.registeredUserInfo.refreshToken);
           }
         },
         error: (err: AppError) => {
           if(err instanceof BadInputError) {
-            console.log("Bad Input Error - ", err.originalError);            
+            console.log(err);  
+
+            var errs: [] = err.originalError['error'].errors || err.originalError['error'].Errors;
+            for(let e in errs){
+              console.log(String(errs[e]));
+            }
+
           } else {
-            throw err;
+            console.log("Unexpected user registration error!", err.originalError);
           }
         }
       });

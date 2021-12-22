@@ -27,6 +27,10 @@ footer, header, nav, section, video {
 h1 {
 	font-size: 1.4rem;
 }
+
+a {
+	color: inherit;
+}
 	
 p { 
 	-ms-word-break: break-all;
@@ -64,18 +68,6 @@ input[type="search"] {
 } 
 input[type="submit"] { 
 	-webkit-appearance:none;
-}
-
-
-.right { 
-	float: right;
-	margin-left: 2rem;
-	clear: right;
-}
-.left { 
-	float: left;
-	margin-right: 2rem;
-	clear: left;
 }
 	
 sub, sup { 
