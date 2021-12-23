@@ -15,8 +15,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.appConfigData = this.appconfigService.getAppConfig();
+    //this.appConfigData = this.appconfigService.getAppConfig();
     
-    console.log(this.appConfigData);
+    //console.log(this.appConfigData);
   }
+
+
 }

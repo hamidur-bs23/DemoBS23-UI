@@ -9,10 +9,11 @@ import { DataService } from './data.service';
 export class AuthService extends DataService {
 
 
-  private loggedUserInfo: LoggedUserInfo | undefined;
+  //private loggedUserInfo: LoggedUserInfo | undefined;
+  private isLoggedUserInfo = new BehaviorSubject(false);
   
-  private userSubject;
-  public getUser$;
+  // private userSubject;
+  // public getUser$;
 
   private userEmail = "";
 
@@ -20,13 +21,15 @@ export class AuthService extends DataService {
     super(http);
 
     // this.userSubject = new BehaviorSubject(localStorage.getItem('email'));
-    this.userSubject = new BehaviorSubject(this.userEmail);
-      this.getUser$ = this.userSubject.asObservable();
+    // this.userSubject = new BehaviorSubject(this.userEmail);
+    //   this.getUser$ = this.userSubject.asObservable();
+    
+    // this.isLoggedUserInfo.next(true);
   }
 
-  public getUserInfo(){
-    return this.userSubject.value;
-  }
+  // public getUserInfo(){
+  //   return this.userSubject.value;
+  // }
 
   register(newUser : UserRegistrationModel) {
     return super.create( 'https://localhost:44315/api/auth/register', newUser)
@@ -42,7 +45,7 @@ export class AuthService extends DataService {
         }
           
         this.userEmail = email;
-        this.userSubject.next(this.userEmail);
+        // this.userSubject.next(this.userEmail);
 
         console.log("Login response = ", response);
 
@@ -58,7 +61,13 @@ export class AuthService extends DataService {
         }
 
         this.userEmail = "";
-        this.userSubject.next(this.userEmail);
+        // this.userSubject.next(this.userEmail);
+  }
+
+  getUser(){
+    const getUserUrl = "https://localhost:44315/api/auth/getuser";
+
+    return super.get(getUserUrl);
   }
 
 }

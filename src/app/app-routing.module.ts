@@ -21,13 +21,14 @@ const routes : Routes = [
     },
 
     {
+        path: 'products/product:id',
+        component: ProductComponent
+    },
+    {
         path: 'products',
         component: ProductsComponent
     },
-    {
-        path: 'product:id',
-        component: ProductComponent
-    },
+    
 
     
     {

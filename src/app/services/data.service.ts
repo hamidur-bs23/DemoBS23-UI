@@ -18,6 +18,11 @@ export class DataService {
             .pipe(catchError(this.handleError));
     }
 
+    get(url: string){
+        return this.http.get(url)
+            .pipe(catchError(this.handleError));
+    }
+
     create(url: string, resource: any) {
         return this.http.post(url, resource)
             .pipe(catchError(this.handleError));

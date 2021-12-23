@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
+import { IProduct } from 'src/app/models/product.model';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -9,30 +11,38 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductsComponent implements OnInit, OnDestroy {
 
-  private products: any[] = [];
+  public products: IProduct[] = [];
   private subscription: any;
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.getAllProducts();
+    // this.getAllProducts();
+    this.products = this.productService.getAllProducts();
   }
 
-  getAllProducts(){
-    this.subscription = this.productService.getAllProducts()
-      .subscribe({
-        next: (response: any)=>{
-          this.products = response.Data;
-          console.log(this.products);
-        },
-        error: (err)=>{
-          console.log(err);
-        }
-      });
-  }
+  // getAllProducts(){
+  //   this.subscription = this.productService.getAllProducts()
+  //     .subscribe({
+  //       next: (response: any)=>{
+  //         this.products = response.Data;
+  //         console.log(this.products);
+  //       },
+  //       error: (err)=>{
+  //         console.log(err);
+  //       }
+  //     });
+  // }
 
   ngOnDestroy(): void {
       
+  }
+
+  onProductDetail(product: IProduct){
+    this.router.navigate(['/products/product', product.Id]);
+
   }
 
 }
