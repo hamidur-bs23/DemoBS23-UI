@@ -6,7 +6,9 @@ import { catchError } from 'rxjs/operators';
 
 import { AppError } from '../common/error-exceptions/app-error';
 import { BadInputError } from '../common/error-exceptions/bad-input-error';
+import { ForbiddenError } from '../common/error-exceptions/Forbidden-error';
 import { NotFoundError } from '../common/error-exceptions/not-found-error';
+import { UnauthorizedError } from '../common/error-exceptions/unauthorized-error';
 
 @Injectable()
 export class DataService {
@@ -41,10 +43,16 @@ export class DataService {
 
 
     private handleError(error: Response) {
-        if (error.status === 404)
-            return throwError(() => new NotFoundError(error));
-        else if (error.status === 400)
+        
+        if (error.status === 400){
             return throwError(() => new BadInputError(error));
+        } else if(error.status === 401){
+            return throwError(()=>new UnauthorizedError(error));
+        } else if (error.status === 403) {
+            return throwError(() => new ForbiddenError(error));
+        } else if (error.status === 404) {
+            return throwError(() => new NotFoundError(error));
+        }
 
         return throwError(() => new AppError(error));
     }

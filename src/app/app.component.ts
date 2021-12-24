@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from './models/user.model';
 import { AppConfigService } from './services/app-config.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,16 +10,25 @@ import { AppConfigService } from './services/app-config.service';
 })
 export class AppComponent implements OnInit {
   title = 'DemoBS23-UI';
-  appConfigData: any;
 
-  constructor(private appconfigService: AppConfigService) {
+  userEmail: string = "";
+
+  constructor(private authService: AuthService) {
     
   }
 
   ngOnInit(): void {
-    //this.appConfigData = this.appconfigService.getAppConfig();
-    
-    //console.log(this.appConfigData);
+
+    this.authService.userSubject$
+      .subscribe({
+        next: (userData: any)=>{
+          this.userEmail = userData['Email'];
+        },
+        error: (err)=>{
+          this.userEmail = "";
+          console.log(err);
+        }
+      });
   }
 
 

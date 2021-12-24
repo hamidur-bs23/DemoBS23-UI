@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first, NotFoundError } from 'rxjs';
 import { AppError } from 'src/app/common/error-exceptions/app-error';
 import { BadInputError } from 'src/app/common/error-exceptions/bad-input-error';
-import { User } from 'src/app/models/user.mode';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -33,8 +32,10 @@ export class LoginComponent implements OnInit {
     if(loginForm.invalid)
       return;
 
-    
-    this.authService.login(loginForm.controls['email'].value, loginForm.controls['password'].value)
+    const email = loginForm.controls['email'].value;
+    const password = loginForm.controls['password'].value;
+
+    this.authService.login(email, password)
       .pipe(first())
       .subscribe({
         next: (response: any) => {

@@ -1,35 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
-import { LoggedUserInfo } from '../models/logged-user-info.model';
+import { BehaviorSubject, map, Observable } from 'rxjs';``
 import { UserRegistrationModel } from '../models/user-registration.model';
 import { DataService } from './data.service';
+import { User } from '../models/user.model'
 
 @Injectable()
 export class AuthService extends DataService {
-
-
-  //private loggedUserInfo: LoggedUserInfo | undefined;
-  private isLoggedUserInfo = new BehaviorSubject(false);
   
-  // private userSubject;
-  // public getUser$;
-
-  private userEmail = "";
+  public userSubject$;
 
   constructor(http: HttpClient) { 
     super(http);
 
-    // this.userSubject = new BehaviorSubject(localStorage.getItem('email'));
-    // this.userSubject = new BehaviorSubject(this.userEmail);
-    //   this.getUser$ = this.userSubject.asObservable();
-    
-    // this.isLoggedUserInfo.next(true);
+    this.userSubject$ = new BehaviorSubject<string>("");
   }
-
-  // public getUserInfo(){
-  //   return this.userSubject.value;
-  // }
 
   register(newUser : UserRegistrationModel) {
     return super.create( 'https://localhost:44315/api/auth/register', newUser)
@@ -42,12 +27,16 @@ export class AuthService extends DataService {
 
         if(token){
           localStorage.setItem('token', token);
+          localStorage.setItem('email', email);
+        }
+
+        const user: User = {
+          email: email
         }
           
-        this.userEmail = email;
-        // this.userSubject.next(this.userEmail);
+        this.userSubject$.next("");
 
-        console.log("Login response = ", response);
+        //console.log("Login response = ", response);
 
         return response;
       }));
@@ -58,16 +47,21 @@ export class AuthService extends DataService {
         
         if(tokenFromStorage){
           localStorage.removeItem('token');
+          localStorage.removeItem('email');
         }
 
-        this.userEmail = "";
-        // this.userSubject.next(this.userEmail);
+        this.userSubject$.next("");
   }
 
-  getUser(){
+  getUser(): Observable<any>{
     const getUserUrl = "https://localhost:44315/api/auth/getuser";
 
     return super.get(getUserUrl);
+  }
+
+  saveUserFromAppConfig(userData: string){
+    this.userSubject$.next(userData);
+    //console.log(this.userSubject$.value);
   }
 
 }
