@@ -1,14 +1,12 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, firstValueFrom } from "rxjs";
 import { User } from "../models/user.model";
+
 import { AuthService } from "./auth.service";
 
 @Injectable()
 export class AppConfigService {
        
     constructor(
-        private http: HttpClient, 
         private authService: AuthService) {
     }
 
@@ -18,9 +16,9 @@ export class AppConfigService {
     }
 
     async getUserFromAPI(){
-        this.authService.getUser()
+        this.authService.getUserFromAPI()
             .subscribe({
-                next: (userData: string)=>{
+                next: (userData: User)=>{
                     this.authService.saveUserFromAppConfig(userData);
                 },
                 error: (err)=>{

@@ -8,12 +8,15 @@ import { User } from '../models/user.model'
 @Injectable()
 export class AuthService extends DataService {
   
-  public userSubject$;
+  private userSubject$;
+  public get getUser(): Observable<User>{
+    return this.userSubject$.asObservable();
+  }
 
   constructor(http: HttpClient) { 
     super(http);
 
-    this.userSubject$ = new BehaviorSubject<string>("");
+    this.userSubject$ = new BehaviorSubject<User>({email: ""});
   }
 
   register(newUser : UserRegistrationModel) {
@@ -21,7 +24,7 @@ export class AuthService extends DataService {
   }
 
   login(email:string, password: string) {
-    return super.create('https://localhost:44315/api/auth/login', { email, password})
+    return super.create('https://localhost:44315/api/auth/login', { email, password })
       .pipe(map((response: any)=>{
         const token = response['Token'];
 
@@ -34,15 +37,14 @@ export class AuthService extends DataService {
           email: email
         }
           
-        this.userSubject$.next("");
-
-        //console.log("Login response = ", response);
+        this.userSubject$.next(user);
 
         return response;
       }));
   }
 
   logout(){
+  
     const tokenFromStorage = localStorage.getItem('token');
         
         if(tokenFromStorage){
@@ -50,16 +52,16 @@ export class AuthService extends DataService {
           localStorage.removeItem('email');
         }
 
-        this.userSubject$.next("");
+        this.userSubject$.next({email: ""});
   }
 
-  getUser(): Observable<any>{
+  getUserFromAPI(): Observable<any>{
     const getUserUrl = "https://localhost:44315/api/auth/getuser";
 
     return super.get(getUserUrl);
   }
 
-  saveUserFromAppConfig(userData: string){
+  saveUserFromAppConfig(userData: User){
     this.userSubject$.next(userData);
     //console.log(this.userSubject$.value);
   }

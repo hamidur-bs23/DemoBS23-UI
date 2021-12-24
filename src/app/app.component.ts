@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { User } from './models/user.model';
 import { AppConfigService } from './services/app-config.service';
 import { AuthService } from './services/auth.service';
@@ -11,21 +12,22 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
   title = 'DemoBS23-UI';
 
-  userEmail: string = "";
+  user: User = {email: ""};
+  getUserSubscription: Subscription;
 
   constructor(private authService: AuthService) {
-    
+    this.getUserSubscription = new Subscription;
   }
 
   ngOnInit(): void {
 
-    this.authService.userSubject$
+    this.getUserSubscription = this.authService.getUser
       .subscribe({
-        next: (userData: any)=>{
-          this.userEmail = userData['Email'];
+        next: (userData: User)=>{
+          this.user.email = userData.email;
         },
         error: (err)=>{
-          this.userEmail = "";
+          this.user.email = "";
           console.log(err);
         }
       });

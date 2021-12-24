@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UnauthorizedError } from 'src/app/common/error-exceptions/unauthorized-error';
 
 import { IProduct } from 'src/app/models/product.model';
 import { ProductService } from 'src/app/services/product.service';
@@ -12,32 +14,45 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductsComponent implements OnInit, OnDestroy {
 
   public products: IProduct[] = [];
-  private subscription: any;
+  private getAllProductsSubscription: Subscription;
 
   constructor(
     private productService: ProductService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute) {
+      this.getAllProductsSubscription = new Subscription();
+     }
 
   ngOnInit(): void {
-    // this.getAllProducts();
-    this.products = this.productService.getAllProducts();
+    this.getAllProducts();
   }
 
-  // getAllProducts(){
-  //   this.subscription = this.productService.getAllProducts()
-  //     .subscribe({
-  //       next: (response: any)=>{
-  //         this.products = response.Data;
-  //         console.log(this.products);
-  //       },
-  //       error: (err)=>{
-  //         console.log(err);
-  //       }
-  //     });
-  // }
+  getAllProducts(){
+    this.getAllProductsSubscription = this.productService.getAllProducts()
+      .subscribe({
+        next: (response: any)=>{
+          this.products = response.Data;
+          console.log(this.products);
+        },
+        error: (err)=>{
+          console.log(err);
+          if(err instanceof UnauthorizedError){
+            alert("Unauthorized Access!");
+            // this.router.navigate(['/login'], {
+            //   queryParams:{
+            //     returnUrl: this.route.
+            //   }
+            // });
+          }
+        }
+      });
+  }
 
   ngOnDestroy(): void {
-      
+
+    if(this.getAllProductsSubscription)
+      this.getAllProductsSubscription.unsubscribe();
+
   }
 
   onProductDetail(product: IProduct){

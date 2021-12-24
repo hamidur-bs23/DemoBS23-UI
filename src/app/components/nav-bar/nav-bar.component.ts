@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavBarComponent implements OnInit, OnDestroy {
 
-  @Input('userEmail') userEmail: string = "no-email";
+  @Input('userEmail') userEmail: string = "";
 
   constructor(
     private authService: AuthService, 
@@ -20,9 +20,11 @@ export class NavBarComponent implements OnInit, OnDestroy {
   }
 
   onLogoutClicked(){
-    this.authService.logout();
+    if(confirm("Do you want to logout?")){
+      this.authService.logout();
 
-    this.router.navigate(['/']);
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnDestroy(){ }

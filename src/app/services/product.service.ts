@@ -8,24 +8,9 @@ import { IProduct } from "../models/product.model";
 @Injectable()
 export class ProductService extends DataService {
 
-    private appBaseUrl = environment.appBaseUrl;
-
-    private urlGetAll = this.appBaseUrl + "/product/getall";
-
-    private products: IProduct[] = [];
+    private urlGetAll = environment.appBaseUrl + "/product/getall";
 
     getAllProducts(){
-        console.log(this.appBaseUrl);
-        // return super.getAll(this.urlGetAll);
-        super.getAll(this.urlGetAll)
-            .subscribe({
-                next: (response: any)=>{
-                    this.products = response['Data'];
-                    console.log(this.products);
-                }
-            });
-
-            return this.products;
-
+        return super.getAll(this.urlGetAll);
     }
 }
