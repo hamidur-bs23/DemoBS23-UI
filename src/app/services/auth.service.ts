@@ -8,6 +8,8 @@ import { User } from '../models/user.model'
 @Injectable()
 export class AuthService extends DataService {
   
+  private isAuthenticate = false;
+
   private userSubject$;
   public get getUser(): Observable<User>{
     return this.userSubject$.asObservable();
@@ -31,6 +33,8 @@ export class AuthService extends DataService {
         if(token){
           localStorage.setItem('token', token);
           localStorage.setItem('email', email);
+
+          this.isAuthenticate = true;
         }
 
         const user: User = {
@@ -50,6 +54,8 @@ export class AuthService extends DataService {
         if(tokenFromStorage){
           localStorage.removeItem('token');
           localStorage.removeItem('email');
+
+          this.isAuthenticate = false;
         }
 
         this.userSubject$.next({email: ""});
@@ -64,6 +70,10 @@ export class AuthService extends DataService {
   saveUserFromAppConfig(userData: User){
     this.userSubject$.next(userData);
     //console.log(this.userSubject$.value);
+  }
+
+  getIsAuthenticate(){
+    return this.isAuthenticate;
   }
 
 }

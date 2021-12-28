@@ -20,7 +20,7 @@ export class DataService {
             .pipe(catchError(this.handleError));
     }
 
-    get(url: string){
+    get(url: string, id?: number){
         return this.http.get(url)
             .pipe(catchError(this.handleError));
     }

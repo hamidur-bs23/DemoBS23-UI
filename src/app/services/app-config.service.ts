@@ -12,7 +12,7 @@ export class AppConfigService {
 
     async loadAppConfig(){
 
-        this.getUserFromAPI();
+        await this.getUserFromAPI();
     }
 
     async getUserFromAPI(){

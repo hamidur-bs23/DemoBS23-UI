@@ -21,8 +21,9 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProductsComponent } from './components/products/products.component';
-import { ProductComponent } from './components/products/product/product.component';
 import { CategoryComponent } from './components/categories/category/category.component';
+import { ProductComponent } from './components/products/product/product.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 
 const appInitializerFn = (appConfigService: AppConfigService) => {
@@ -55,6 +56,7 @@ const appInitializerFn = (appConfigService: AppConfigService) => {
     HttpClientModule
   ],
   providers: [
+    AuthGuard,
     AuthService,
     ProductService,
     CategoryService,

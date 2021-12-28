@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UnauthorizedError } from 'src/app/common/error-exceptions/unauthorized-error';
 
-import { IProduct } from 'src/app/models/product.model';
+import { Product } from 'src/app/models/product.model';
+
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductsComponent implements OnInit, OnDestroy {
 
-  public products: IProduct[] = [];
+  public products: Product[] = [];
   private getAllProductsSubscription: Subscription;
 
   constructor(
@@ -38,11 +39,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
           console.log(err);
           if(err instanceof UnauthorizedError){
             alert("Unauthorized Access!");
-            // this.router.navigate(['/login'], {
-            //   queryParams:{
-            //     returnUrl: this.route.
-            //   }
-            // });
           }
         }
       });
@@ -55,9 +51,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   }
 
-  onProductDetail(product: IProduct){
-    this.router.navigate(['/products/product', product.Id]);
-
+  onProductDetail(product: Product){
+    this.router.navigate(['/products', product.Id], {relativeTo: this.route});
   }
 
 }
