@@ -4,12 +4,13 @@ import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { RegisterComponent } from "./components/register/register.component";
+import { AuthGuard } from "./services/auth-guard.service";
 
 const routes : Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
 
-    { path: 'product', loadChildren: ()=>import('./product/product.module').then(m=>m.ProductModule)},
+    { path: 'product', loadChildren: ()=>import('./product/product.module').then(m=>m.ProductModule), canActivate:[AuthGuard] },
 
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },

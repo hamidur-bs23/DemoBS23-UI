@@ -1,11 +1,14 @@
-<p>Category add works!</p>
-
 <div class="section">
-    
-    <add-edit-category-form (addCategoryEvent)="onCreate($event)"></add-edit-category-form>
+    <div class="items-wrapper">
+        
+        <add-edit-category-form (addCategoryEvent)="onCreate($event)"></add-edit-category-form>
 
-    <button 
-        class="btn"
-        [routerLink]="['../']">Back</button>
-    
+        <div class="btn-group">
+            <button 
+                class="btn"
+                [routerLink]="['../']">
+                Back
+            </button>
+        </div>
+    </div>      
 </div>

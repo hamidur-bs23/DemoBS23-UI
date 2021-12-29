@@ -1,1 +1,27 @@
-<p>Product list works!</p>
+
+
+
+<div class="section">
+    <div class="btn-group">
+      <button [routerLink]="['add']" class="btn">Add New Category</button>
+    </div>
+
+    <div *ngIf="!products">
+        <h2 class="heading">No products to show!</h2>
+    </div>
+  
+    <div class="items-wrapper" *ngIf="products">
+      <h2 class="heading">Product List</h2>
+  
+      <ul class="list-group">
+        <li
+          [routerLink]="[item.Id]"
+          *ngFor="let item of products; let idx = index"
+          class="list-item"
+        >
+          {{ item.Id }}: {{ item.Name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  

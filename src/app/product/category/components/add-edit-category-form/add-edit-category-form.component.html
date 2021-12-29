@@ -1,6 +1,5 @@
-<p>Category add-edit-category-form works!</p>
-
 <div class="section">
+    <h2 class="heading">Add New Category</h2>
     <div class="form-warpper">
         <form [formGroup]="addEditForm" (ngSubmit)="onSubmit()">
             <input type="hidden" name="id" [id]="id">
@@ -11,8 +10,8 @@
             </div>
 
             <div class="btn-group">
-                <button type="submit" *ngIf="!isEditMode" [disabled]="addEditForm.invalid">Add</button>
-                <button type="submit" *ngIf="isEditMode" [disabled]="addEditForm.invalid">Edit</button>
+                <button class="btn" type="submit" *ngIf="!isEditMode" [disabled]="addEditForm.invalid">Add</button>
+                <button class="btn" type="submit" *ngIf="isEditMode" [disabled]="addEditForm.invalid">Edit</button>
             </div>
         </form>
     </div>
