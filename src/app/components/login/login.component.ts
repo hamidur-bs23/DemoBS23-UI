@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: any) => {
 
-          //alert("Thank you for login");
+          alert("Thank you for login");
 
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigateByUrl(returnUrl);

@@ -14,7 +14,7 @@ const routes : Routes = [
 
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
-    {path: 'logout', component: LoginComponent },
+    { path: 'logout', component: LoginComponent },
 
     { path: '**', component: NotFoundComponent }
 

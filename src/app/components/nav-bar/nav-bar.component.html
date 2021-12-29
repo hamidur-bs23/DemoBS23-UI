@@ -10,9 +10,17 @@
                     Home
                 </a>
             </li>
+            <!-- <li>
+                <a 
+                    routerLink="/product" 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">
+                    Product
+                </a>
+            </li> -->
             <li>
                 <a 
-                    [routerLink]="['/product']" 
+                    routerLink="/product" 
                     routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact: true}">
                     Product
@@ -21,7 +29,8 @@
             <li>
                 <a 
                     routerLink="/product/category" 
-                    routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">
                     Category
                 </a>
             </li>

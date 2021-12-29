@@ -7,11 +7,12 @@ import { ViewComponent } from './pages/view/view.component';
 
 const routes: Routes = [
 
-  { path: 'category', loadChildren: ()=>import('./category/category.module').then(m=>m.CategoryModule) },
+  { path: 'not-found', component: ListComponent, pathMatch: 'full' },
 
-  { path: '', component: ListComponent, pathMatch: 'full' },
-  { path: 'add', component: AddComponent },
-  { path: ':id/edit', component: EditComponent },
+  { path: 'category', loadChildren: ()=>import('./category/category.module').then(m=>m.CategoryModule), pathMatch: 'full' },
+
+  { path: 'add', component: AddComponent, pathMatch: 'full' },
+  { path: ':id/edit', component: EditComponent, pathMatch: 'full' },
   { path: ':id', component: ViewComponent, pathMatch: 'full' }
 
 ];
