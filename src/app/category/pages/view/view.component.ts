@@ -16,6 +16,8 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   id: number = 0;
   category: any = {};
+
+  imagePath: string = '../../../../assets/images/demo-1.png';
   
   private getCategorySubscription: Subscription;
 

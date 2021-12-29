@@ -11,6 +11,7 @@ import { ProductService } from '../../services/product.service';
 export class ListComponent implements OnInit, OnDestroy {
   
   public products: Product[] = [];
+  public imagePath: string = '../../../../assets/images/demo.png';
 
   public getAllSubscription: Subscription;
 

@@ -1,4 +1,4 @@
-<p>list works!</p>
+
 
 <div class="section">
     <div class="btn-group">
@@ -34,9 +34,20 @@
                 *ngFor="let item of products; let idx = index"
                 class="list-item"
               >
-                <p>Id: {{ item.Id }}   -   Name: {{ item.Name }}</p>
-                <p>Price: {{ item.Price }}   -   Category: {{ item. CategoryName }}</p>
-                <p>Description: {{ item.Description }}</p>
+
+              <div class="image">
+                <img [src]="imagePath" [alt]="item.Name">
+              </div>
+              <div class="content">
+                <h4 class="title">Name: {{ item.Name }} - ({{ item.Id }})</h4>
+                <div>
+                  <span class="price">Price: {{ item.Price }}</span>
+                  <span class="categoryName">Category: {{ item. CategoryName }}</span>
+                </div>
+                
+                <p class="description">Description: {{ item.Description }}</p>
+              </div>
+
               </li>
             </ul>
           </div>

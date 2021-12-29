@@ -32,7 +32,7 @@ export class ProductService extends DataService {
    }
 
    getProductById(id: number): Observable<Product> {
-    const url = this.baseUrl + '/get';
+    const url = this.baseUrl + '/get/' + id;
 
     return super.get(url)
       .pipe(

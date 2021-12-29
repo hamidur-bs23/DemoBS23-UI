@@ -11,6 +11,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
   categories : any[] = [];
 
+  imagePath: string = '../../../../assets/images/demo-1.png';
+
   private getAllCategoriesSubscription: Subscription;
 
   constructor(private categoryService: CategoryService) {

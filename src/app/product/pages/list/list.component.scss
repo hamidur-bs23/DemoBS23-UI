@@ -4,23 +4,53 @@
     justify-content: center;
     margin-bottom: 1rem;
 }
-
+.image {
+    flex-basis: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        max-width: 100%;
+        height: 100px;
+        display: block;
+    }
+}
 .list-group {
     list-style: none;
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
     .list-item {
-        padding: .5rem;
+        display: flex;
+        padding: 1rem;
         text-align: center;
         list-style: none;
-        background-color: rgba(0,0,255, .01);
-        margin-bottom: .5rem;
+        background-color: rgba(0,0,255, .05);
         border-radius: 4px;
         cursor: pointer;
         transition: .2s all ease-in-out;
+        &:not(:last-child){
+            margin-bottom: 1rem;
+        }
         &:hover {
             background-color: rgba(0,0,255,.1);
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 1rem 2rem;
+        }
+        .title{
+            margin-bottom: .5rem
+        }
+        .price {
+            margin-right: 2rem;
+        }
+        .description {
+            margin-top: 1rem;
         }
     }
 }

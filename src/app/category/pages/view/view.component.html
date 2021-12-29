@@ -1,20 +1,33 @@
 <div class="section">
 
-    <h2 *ngIf="!category">No items to show!</h2>
-
-    <div class="items-wrapper" *ngIf="category">
-        <h2 class="heading">Details of category item</h2>
-        <div class="item">
-            <h2>Id = {{ category.Id }} </h2>
-            <h2>Name = {{ category.Name }}</h2>
-            <!-- <div class="btn-group">
-                <button (click)="onEdit()">Edit</button>
-                <button (click)="onDelete()">Delete</button>
-            </div> -->
-        </div>
-        <div class="btn-group">
-            <button class="btn" [routerLink]="['../']">Back</button>
-        </div>
+    <div *ngIf="!category; else displayBlock">
+        <h2 class="heading">No items to show!</h2>
     </div>
+
+    <ng-template #displayBlock>
+        <div class="items-wrapper">
+            <h2 class="heading">Details of category item</h2>
+            <div class="item">
+                <div class="image">
+                    <img [src]="imagePath" [alt]="category.Name">
+                </div>
+                <div class="content">
+                    <div class="title">
+                        <h2 class="title">{{category.Name}} ({{category.Id}})</h2>
+                    </div>
+                    
+                </div>
+                <!-- <div class="btn-group">
+                    <button (click)="onEdit()">Edit</button>
+                    <button (click)="onDelete()">Delete</button>
+                </div> -->
+            </div>
+            <div class="btn-group">
+                <button class="btn" [routerLink]="['../']">Back</button>
+            </div>
+        </div>
+    </ng-template>
+
+    
     
 </div>
