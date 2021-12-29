@@ -1,29 +1,46 @@
-<h1>List component</h1>
-
-<!-- 
-
+<p>list works!</p>
 
 <div class="section">
     <div class="btn-group">
-      <button [routerLink]="['add']" class="btn">Add New Category</button>
+      <button [routerLink]="['add']" class="btn">Add New Product</button>
     </div>
+  
+    <!-- <table>
+          <thead>
+              <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of categories">
+                  <td>{{ item.Id }}</td>
+                  <td>{{ item.Name }}</td>
+              </tr>
+  
+          </tbody>
+      </table> -->
+ 
+    <div *ngIf="!products; else displayBlock">
+        <h2 class="heading">No items to show!</h2>
+    </div>
+    <ng-template #displayBlock>
+        <div class="items-wrapper">
+            <h2 class="heading">Products List</h2>
+        
+            <ul class="list-group">
+              <li
+                [routerLink]="[item.Id]"
+                *ngFor="let item of products; let idx = index"
+                class="list-item"
+              >
+                <p>Id: {{ item.Id }}   -   Name: {{ item.Name }}</p>
+                <p>Price: {{ item.Price }}   -   Category: {{ item. CategoryName }}</p>
+                <p>Description: {{ item.Description }}</p>
+              </li>
+            </ul>
+          </div>
+    </ng-template>
 
-    <div *ngIf="!products">
-        <h2 class="heading">No products to show!</h2>
-    </div>
-  
-    <div class="items-wrapper" *ngIf="products">
-      <h2 class="heading">Product List</h2>
-  
-      <ul class="list-group">
-        <li
-          [routerLink]="[item.Id]"
-          *ngFor="let item of products; let idx = index"
-          class="list-item"
-        >
-          {{ item.Id }}: {{ item.Name }}
-        </li>
-      </ul>
-    </div>
   </div>
-   -->
+  

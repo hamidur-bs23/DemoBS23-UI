@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from 'src/app/models/product.model';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-view',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewComponent implements OnInit {
 
-  constructor() { }
+  private product: Product;
+
+  constructor(private productService: ProductService) {
+
+   }
 
   ngOnInit(): void {
+  }
+
+  getProductById(id: number) {
+    this.productService.getProductById(id)
+    .subscribe({
+      next: (data: Product)=>{
+        this.product = data;
+        
+        console.log(data, this.product);
+      }
+    });
   }
 
 }

@@ -7,17 +7,18 @@ import { RegisterComponent } from "./components/register/register.component";
 import { AuthGuard } from "./services/auth-guard.service";
 
 const routes : Routes = [
+    { path: 'home', component: HomeComponent },    
     { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
 
-    { path: 'product', loadChildren: ()=>import('./product/product.module').then(m=>m.ProductModule), canActivate:[AuthGuard] },
+    { path: 'product', loadChildren: ()=>import('./product/product.module').then(m=>m.ProductModule) },
 
+    { path: 'category', loadChildren: ()=>import('./category/category.module').then(m=>m.CategoryModule) },
+    
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LoginComponent },
 
     { path: '**', component: NotFoundComponent }
-
 ];
 
 @NgModule({

@@ -1,6 +1,5 @@
 import { ErrorHandler, NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +10,6 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AppConfigService } from './services/app-config.service';
-// import { ProductService } from './services/product.service';
 
 import { AppErrorHandler } from './common/error-exceptions/app-error-handler';
 
@@ -53,7 +51,6 @@ const appInitializerFn = (appConfigService: AppConfigService) => {
   providers: [
     AuthGuard,
     AuthService,
-    // ProductService,
     AppConfigService,
     { provide: ErrorHandler, useClass: AppErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

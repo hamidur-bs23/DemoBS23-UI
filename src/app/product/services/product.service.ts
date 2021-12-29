@@ -1,55 +1,57 @@
-import { Injectable } from "@angular/core";
-import { environment } from "src/environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { DataService } from "src/app/services/data.service";
+import { DataService } from 'src/app/services/data.service';
 
-import { map, Observable } from "rxjs";
-import { Product } from "src/app/models/product.model";
+import { environment } from 'src/environments/environment';
+import { Product } from 'src/app/models/product.model';
 
-@Injectable()
-export class ProductService extends DataService{
-    
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductService extends DataService {
 
-    getAllProducts(): Observable<Product[]>{
-        const urlGetAll = environment.appBaseUrl + "/product/getall";
+  private baseUrl = environment.appBaseUrl + '/product';
 
-        return super.getAll(urlGetAll)
-            .pipe(
-                map((response: any)=>{
-                    return response.Data
-                })
-            );
-    }
+  constructor(http: HttpClient) {
+    super(http);
+   }
 
-    getProductById(id: number): Observable<Product>{
-        const urlGetProductById = environment.appBaseUrl + "/product/get";
+   getAllProducts(): Observable<Product[]> {
+    const url = this.baseUrl + '/getall';
 
-        return super.get(urlGetProductById, id)
-            .pipe(
-                map((response: any) => {
-                    if(response['Data']){
-                        console.log(response['Data'])
-                        return response['Data'];
-                    }
-                })
-            );
-    }
+    return super.getAll(url)
+      .pipe(
+        map((response: any)=>{
+          console.log(response);
+          return response.Data as Product[];
+        })
+      );
+   }
 
-    createProduct(newProduct: Product){
-        const url = environment.appBaseUrl + "/product/add";
-        
-        return super.create(url, newProduct);
-    }
+   getProductById(id: number): Observable<Product> {
+    const url = this.baseUrl + '/get';
 
-    updateProductById(product: Product){
-        const url = environment.appBaseUrl + "/product/update";
-        
-        return super.create(url, product);
-    }
+    return super.get(url)
+      .pipe(
+        map((response: any)=>{
+          console.log(response);
+          return response.Data as Product;
+        })
+      );
+   }
 
-    deleteProductById(id: number){
-        const url = environment.appBaseUrl + "/product/delete";
+   createProduct(product: Product){
 
-        super.delete(url, id);
-    }
+   }
+
+   updateProduct(product: Product){
+
+   }
+
+   deleteProduct(id: number){
+
+   }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { ProductService } from '../../services/product.service';
 
@@ -7,25 +8,33 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
-
-  products: Product[] = [];
+export class ListComponent implements OnInit, OnDestroy {
   
-  constructor(private productService: ProductService) { }
+  public products: Product[] = [];
+
+  public getAllSubscription: Subscription;
+
+  constructor(
+    private productService: ProductService) {
+
+     }
 
   ngOnInit(): void {
     this.getAllProducts();
   }
 
+  ngOnDestroy(): void {
+      if(this.getAllSubscription)
+        this.getAllSubscription.unsubscribe();
+  }
+
   getAllProducts(){
-    this.productService.getAllProducts()
+    this.getAllSubscription = this.productService.getAllProducts()
       .subscribe({
-        next: (data: any)=>{
+        next: (data: Product[])=>{
           this.products = data;
+          
           console.log(this.products);
-        }, 
-        error: (err)=>{
-          console.log(err);
         }
       });
   }
