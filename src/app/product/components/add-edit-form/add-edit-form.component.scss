@@ -1,0 +1,56 @@
+
+.form-wrapper {
+    display: flex;
+    padding: 2rem;
+    background-color: rgba(0,0,255,.05);
+    border-radius: 4px;
+    form{
+        width: 100%;
+    }
+    .form-group {
+        display: flex;
+        display: flex;
+        width: 100%;
+        margin-bottom: 1rem;
+        flex-flow: row;
+        justify-content: stretch;
+        align-items: center;
+        input,
+        textarea,
+        select,
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 100%;
+            flex-basis: 60%;
+            height: 3rem;
+            font-size: 100%;
+            padding: .5rem;
+        }
+        label {
+            padding-right: 1rem;
+        }
+    }
+}
+
+
+.form-group {
+    
+}
+
+.form-group labe {
+    flex-basis: 30%;
+    width: 70%;
+}
+
+.form-group label {
+    display: flex;
+    flex-basis: 25%;
+}
+
+.form-group input, .form-group select {
+    display: flex;
+    flex-flow: row;
+    height: 2rem;
+    line-height: 100%;
+    flex-basis: 60%;
+}

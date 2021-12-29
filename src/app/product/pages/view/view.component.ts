@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
@@ -21,7 +21,8 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private router: Router) {
 
    }
 
@@ -64,4 +65,11 @@ export class ViewComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDelete(){
+
+  }
+
+  onEdit(){
+    this.router.navigate(['edit'], {relativeTo: this.route});
+  }
 }

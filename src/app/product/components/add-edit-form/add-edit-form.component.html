@@ -1,1 +1,75 @@
-<p>add-edit-form works!</p>
+<div class="section">
+    <h2 class="heading" *ngIf="!isEditMode">Add User</h2>
+    <h2 class="heading" *ngIf="isEditMode">Edit User</h2>
+
+    <div class="form-wrapper">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <!-- Name  -->
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" formControlName="name" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['name'].errors }" />
+                <div *ngIf="isSubmitted && f['name'].errors" class="invalid-feedback">
+                    <div *ngIf="f['name'].errors['required']">Name is required</div>
+                </div>
+            </div>
+
+            <!-- Price -->
+
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" formControlName="price" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['price'].errors }" />
+                <div *ngIf="isSubmitted && f['price'].errors" class="invalid-feedback">
+                    <div *ngIf="f['price'].errors['required']">Price is required</div>
+                </div>
+            </div>
+
+            <!-- Quantity -->
+
+            <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" formControlName="quantity" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['quantity'].errors }" />
+                <div *ngIf="isSubmitted && f['quantity'].errors" class="invalid-feedback">
+                    <div *ngIf="f['quantity'].errors['required']">quantity is required</div>
+                </div>
+            </div>
+
+            <!-- categoryId -->
+            <div class="form-group">
+                <label>Category Name</label>
+                <select formControlName="categoryId" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['categoryId'].errors }">
+                    <option value=""></option>
+                    <option value="1">Category-1</option>
+                    <option value="2">Category-2</option>
+                </select>
+                <div *ngIf="isSubmitted && f['role'].errors" class="invalid-feedback">
+                    <div *ngIf="f['role'].errors['required']">Role is required</div>
+                </div>
+            </div>
+
+            <!-- Description         -->
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" formControlName="description" class="form-control"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f['description'].errors }" />
+                <div *ngIf="isSubmitted && f['description'].errors" class="invalid-feedback">
+                    <div *ngIf="f['description'].errors['required']">
+                        Description is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button [disabled]="isLoading" class="btn btn-primary" type="submit">
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Save
+                </button>
+                <button routerLink="../" class="btn btn-link">Cancel</button>
+            </div>
+
+        </form>
+    </div>
+</div>

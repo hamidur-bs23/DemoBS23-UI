@@ -25,19 +25,13 @@
                     </div>
                     
                 </div>
-                <!-- <p class="id"><span class="label">Id:</span> <span>{{ product.Id }}</span></p>
-                <p class="name"><span class="label">Name:</span> <span>{{ product.Name }}</span></p>
-                <p class="price"><span class="label">Price:</span> <span>{{ product.Price }}</span></p>
-                <p class="category"><span class="label">Category:</span> <span>{{ product. CategoryName }}</span></p>
-                <p class="description"><span class="label">Description:</span> <span>{{ product.Description }}</span></p> -->
-                <!-- <div class="btn-group">
-                    <button (click)="onEdit()">Edit</button>
-                    <button (click)="onDelete()">Delete</button>
-                </div> -->
+                <div class="btn-group">
+                    <button class="btn" [routerLink]="['../']">Back</button>
+                    <button class="btn" (click)="onEdit()">Edit</button>
+                    <button class="btn" (click)="onDelete()">Delete</button>
+                </div>
             </div>
-            <div class="btn-group">
-                <button class="btn" [routerLink]="['../']">Back</button>
-            </div>
+            
         </div>
     </ng-template>
 

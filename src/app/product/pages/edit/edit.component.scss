@@ -1,0 +1,22 @@
+.items-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    .item {
+        padding: 2rem;
+        text-align: center;
+        background-color: rgba(0,0,255,.01);
+        padding: 5rem !important;
+        transition: .2s all ease-in-out;
+        &:not(:last-child) {
+            margin-bottom: 2rem;
+        }
+        &:hover {
+            background-color: rgba(0,0,255,.05) !important;
+        }
+    }
+}
+
+
+.btn-group{
+    justify-content: center;
+}
