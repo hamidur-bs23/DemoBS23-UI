@@ -1,15 +1,17 @@
 import { ErrorHandler, NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AuthService } from './services/auth.service';
-import { ProductService } from './services/product.service';
-import { CategoryService } from './services/category.service';
+import { AuthGuard } from './services/auth-guard.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AppConfigService } from './services/app-config.service';
+import { ProductService } from './services/product.service';
 
 import { AppErrorHandler } from './common/error-exceptions/app-error-handler';
 
@@ -20,10 +22,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
-import { ProductsComponent } from './components/products/products.component';
-import { CategoryComponent } from './components/categories/category/category.component';
-import { ProductComponent } from './components/products/product/product.component';
-import { AuthGuard } from './services/auth-guard.service';
 
 
 const appInitializerFn = (appConfigService: AppConfigService) => {
@@ -43,23 +41,19 @@ const appInitializerFn = (appConfigService: AppConfigService) => {
     NotFoundComponent,
     NavBarComponent,
     RegisterComponent,
-    LoginComponent,
-    ProductsComponent,
-    ProductComponent,
-    CategoryComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CoreModule,
+    SharedModule
   ],
   providers: [
     AuthGuard,
     AuthService,
     ProductService,
-    CategoryService,
     AppConfigService,
     { provide: ErrorHandler, useClass: AppErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -1,0 +1,19 @@
+<p>Category add-edit-category-form works!</p>
+
+<div class="section">
+    <div class="form-warpper">
+        <form [formGroup]="addEditForm" (ngSubmit)="onSubmit()">
+            <input type="hidden" name="id" [id]="id">
+            
+            <div class="form-group">
+                <label for="">Category Name</label>
+                <input type="text" id="name" formControlName="categoryName">
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" *ngIf="!isEditMode" [disabled]="addEditForm.invalid">Add</button>
+                <button type="submit" *ngIf="isEditMode" [disabled]="addEditForm.invalid">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>

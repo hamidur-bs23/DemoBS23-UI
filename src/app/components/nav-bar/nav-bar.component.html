@@ -3,13 +3,27 @@
         
         <ul class="left">
             <li>
-                <a routerLink="/home" routerLinkActive="active">Home</a>
+                <a 
+                    routerLink="/home" 
+                    routerLinkActive="active" 
+                    [routerLinkActiveOptions]="{exact: true}">
+                    Home
+                </a>
             </li>
             <li>
-                <a routerLink="/products" routerLinkActive="active">Products</a>
+                <a 
+                    routerLink="/product" 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">
+                    Product
+                </a>
             </li>
             <li>
-                <a routerLink="/categories" routerLinkActive="active">Categories</a>
+                <a 
+                    routerLink="/product/category" 
+                    routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">
+                    Category
+                </a>
             </li>
             
         </ul>
@@ -17,16 +31,27 @@
         <ul class="right">
             <ng-container *ngIf="!userEmail; else elseBlock">
                 <li>
-                    <a routerLink="/register" routerLinkActive="active">Register</a>
+                    <a 
+                        routerLink="/register" 
+                        routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">
+                        Register
+                    </a>
                 </li>
                 <li>
-                    <a routerLink="/login" routerLinkActive="active">Login</a>
+                    <a 
+                        routerLink="/login" 
+                        routerLinkActive="active"[routerLinkActiveOptions]="{exact: true}">
+                        Login
+                    </a>
                 </li>
             </ng-container>
     
             <ng-template #elseBlock>
                 <li>
-                    <a (click)="onLogoutClicked()">Logout</a>
+                    <a 
+                        (click)="onLogoutClicked()">
+                        Logout
+                    </a>
                 </li>
         
                 <li 
