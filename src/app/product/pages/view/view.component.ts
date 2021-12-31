@@ -67,9 +67,28 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   onDelete(){
 
+    if(this.id && confirm("Want to delete?")){
+
+      this.productService.deleteProduct(this.id)
+        .subscribe({
+          next: (response: any)=>{
+
+            console.log(response)
+            alert("Deleted successful");
+
+            this.router.navigate(['../'], {relativeTo: this.route});
+          },
+          error: (err)=>{
+            console.log(err);
+          }
+        })
+    }
+    return;
   }
 
   onEdit(){
+    
     this.router.navigate(['edit'], {relativeTo: this.route});
+
   }
 }

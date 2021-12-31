@@ -43,15 +43,26 @@ export class ProductService extends DataService {
       );
    }
 
-   createProduct(product: Product){
+   createProduct(newProduct: Product){
+    const url = this.baseUrl + '/add';
 
+    return super.create(url, newProduct);
    }
 
-   updateProduct(product: Product){
+
+   updateProduct(updatedProduct: Product){
+     console.log(updatedProduct);
+
+    const url = this.baseUrl + '/update';
+
+    return super.update(url, updatedProduct);
 
    }
 
    deleteProduct(id: number){
+    const url = this.baseUrl + '/delete';
+
+    return super.delete(url, id);
 
    }
 }

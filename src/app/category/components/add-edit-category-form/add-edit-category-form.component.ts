@@ -27,7 +27,7 @@ export class AddEditCategoryFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private categoryService: CategoryService) {
-    this.createForm();
+    
    }
 
   ngOnInit(): void {
@@ -48,6 +48,8 @@ export class AddEditCategoryFormComponent implements OnInit, OnDestroy {
         console.log(err);
       }
     });
+
+    this.createForm();
   }
 
   ngOnDestroy(): void {

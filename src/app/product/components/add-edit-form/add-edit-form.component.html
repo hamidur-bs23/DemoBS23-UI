@@ -1,9 +1,12 @@
 <div class="section">
-    <h2 class="heading" *ngIf="!isEditMode">Add User</h2>
-    <h2 class="heading" *ngIf="isEditMode">Edit User</h2>
+    <h2 class="heading" *ngIf="!isEditMode">Add Product</h2>
+    <h2 class="heading" *ngIf="isEditMode">Edit Product</h2>
 
     <div class="form-wrapper">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+            <input type="hidden" id="id" name="id" formControlName="id">
+
             <!-- Name  -->
             <div class="form-group">
                 <label>Name</label>
@@ -63,9 +66,12 @@
             </div>
 
             <div class="btn-group">
-                <button [disabled]="isLoading" class="btn btn-primary" type="submit">
+                <button [disabled]="form.invalid" class="btn btn-primary" type="submit">
                     <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Save
+                    
+                    <span *ngIf="!isEditMode">Save</span>
+                    <span *ngIf="isEditMode">Update</span>
+
                 </button>
                 <button routerLink="../" class="btn btn-link">Cancel</button>
             </div>

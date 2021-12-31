@@ -2,15 +2,7 @@
 <div class="section">
     <div class="items-wrapper">
         
-        <app-add-edit-form></app-add-edit-form>
-        <!-- (addCategoryEvent)="onCreate($event)" -->
+        <app-add-edit-form (editEvent)="onSave($event)"></app-add-edit-form>
 
-        <!-- <div class="btn-group">
-            <button 
-                class="btn"
-                [routerLink]="['../']">
-                Back
-            </button>
-        </div> -->
     </div>      
 </div>

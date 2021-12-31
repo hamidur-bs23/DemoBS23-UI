@@ -31,7 +31,7 @@ export class DataService {
     }
 
     update(url: string, resource: any) {
-        return this.http.put(url + '/' + resource.id, resource)
+        return this.http.put(url + '/' + (+resource.id), resource)
             .pipe(catchError(this.handleError));
     }
 

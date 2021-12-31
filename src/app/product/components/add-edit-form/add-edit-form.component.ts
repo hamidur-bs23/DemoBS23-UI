@@ -31,7 +31,7 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private productService: ProductService) {
 
-    this.createForm();
+    
 
   }
 
@@ -56,6 +56,10 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
       }
     });
 
+
+    this.createForm();
+    
+
     if (this.isEditMode) {
       this.productService.getProductById(this.id)
         .pipe(first())
@@ -66,7 +70,8 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
               price: data.Price,
               quantity: data.StockInHand,
               description: data.Description,
-              categoryId: data.CategoryId
+              categoryId: data.CategoryId,
+              id: this.id
             });
           },
           error: (err) => {
@@ -88,7 +93,8 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
       price: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      categoryId: ['', [Validators.required]]
+      categoryId: ['', [Validators.required]],
+      id: ['']
     });
   }
 

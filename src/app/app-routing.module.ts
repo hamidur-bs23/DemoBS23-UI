@@ -10,9 +10,9 @@ const routes : Routes = [
     { path: 'home', component: HomeComponent },    
     { path: '', redirectTo: '/home', pathMatch: 'full' },
 
-    { path: 'product', loadChildren: ()=>import('./product/product.module').then(m=>m.ProductModule) },
+    { path: 'product', loadChildren: ()=>import('./product/product.module').then(m=>m.ProductModule), canActivate:[AuthGuard] },
 
-    { path: 'category', loadChildren: ()=>import('./category/category.module').then(m=>m.CategoryModule) },
+    { path: 'category', loadChildren: ()=>import('./category/category.module').then(m=>m.CategoryModule), canActivate:[AuthGuard] },
     
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
