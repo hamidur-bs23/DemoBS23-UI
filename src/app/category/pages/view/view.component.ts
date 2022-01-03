@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Category } from 'src/app/models/category.model';
+
 import { CategoryService } from '../../services/category.service';
 
+import { Category } from 'src/app/models/category.model';
 
 
 @Component({
@@ -19,11 +19,14 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   imagePath: string = '../../../../assets/images/demo-1.png';
   
+  private initSubscription: Subscription;
   private getCategorySubscription: Subscription;
+  private onDeleteSubscription: Subscription;
 
   constructor(
     private categoryService: CategoryService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private router: Router) {
       
       this.getCategorySubscription = new Subscription();
    }
@@ -37,12 +40,17 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      if(this.getCategorySubscription)
-        this.getCategorySubscription.unsubscribe();
+    
+    if(this.initSubscription)
+      this.initSubscription.unsubscribe();
+    if(this.getCategorySubscription)
+      this.getCategorySubscription.unsubscribe();
+    if(this.onDeleteSubscription)
+      this.onDeleteSubscription.unsubscribe();
   }
 
   init(){
-    this.route.params.subscribe({
+    this.initSubscription = this.route.params.subscribe({
       next: (params: Params) => {
         this.id = params['id'];
       },
@@ -65,12 +73,25 @@ export class ViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  onEdit(){
-
+  onEdit(categoryForEdit: Category){
+    this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route});
   }
 
-  onDelete(){
+  onDelete(id: number) {
+    console.log(id);
 
+    this.onDeleteSubscription = this.categoryService.deleteCategory(id)
+      .subscribe({
+        next: (resposne: any)=>{
+          console.log("Response - ", resposne);
+          if(resposne.Success){
+            this.router.navigate(['../'], {relativeTo: this.route});
+          }
+        },
+        error: (err)=>{
+          console.log(err);
+        }
+      });
   }
 
 }

@@ -1,14 +1,4 @@
-<div class="section">
-    <div class="items-wrapper">
-        
-        <add-edit-category-form (addCategoryEvent)="onCreate($event)"></add-edit-category-form>
 
-        <div class="btn-group">
-            <button 
-                class="btn"
-                [routerLink]="['../']">
-                Back
-            </button>
-        </div>
-    </div>      
+<div>
+    <add-edit-form (addEvent)="onCreate($event)"></add-edit-form>
 </div>

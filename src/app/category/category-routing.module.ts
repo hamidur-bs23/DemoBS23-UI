@@ -7,11 +7,12 @@ import { ListComponent } from './pages/list/list.component';
 import { ViewComponent } from './pages/view/view.component';
 
 const routes: Routes = [
-  { path: '', component: ListComponent, pathMatch: 'full' },
   
   { path: 'add', component: AddComponent },
   { path: ':id/edit', component: EditComponent },
   { path: ':id', component: ViewComponent },
+  
+  { path: '', component: ListComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

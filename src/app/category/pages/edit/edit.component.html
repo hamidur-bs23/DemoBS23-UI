@@ -1,6 +1,9 @@
-<p>Category edit works!</p>
+<ng-template #elseBlock>
+    <h2 class="heading">Something wrong!</h2>
+</ng-template>
 
-<div>
-    <add-edit-category-form></add-edit-category-form>
+<div *ngIf="category; else elseBlock">
+    <add-edit-form [isEdit]="true" [dataForEdit]="category" (editEvent)="onUpdate($event)"></add-edit-form>
 </div>
+
 

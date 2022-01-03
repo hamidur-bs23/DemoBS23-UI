@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Category } from 'src/app/models/category.model';
+
 import { CategoryService } from '../../services/category.service';
+
+import { Category } from 'src/app/models/category.model';
 
 @Component({
   selector: 'app-list',
@@ -16,6 +18,7 @@ export class ListComponent implements OnInit, OnDestroy {
   imagePath: string = '../../../../assets/images/demo-1.png';
 
   private getAllCategoriesSubscription: Subscription;
+  private onDeleteSubscription: Subscription;
 
   constructor(
     private categoryService: CategoryService,
@@ -32,6 +35,9 @@ export class ListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if(this.getAllCategoriesSubscription)
       this.getAllCategoriesSubscription.unsubscribe();
+
+    if(this.onDeleteSubscription)
+      this.onDeleteSubscription.unsubscribe();
   }
 
   getAll(){
@@ -39,7 +45,6 @@ export class ListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: any)=>{
           this.categories = response['Data'];
-          console.log(this.categories);
         },
         error: (err)=>{
           console.log(err);
@@ -48,12 +53,21 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(categoryForUpdate:any) {
-    //console.log("onEditClicked - ", categoryForUpdate, categoryForUpdate.Id);
-
     this.router.navigate(['./', categoryForUpdate.Id, 'edit'], {relativeTo: this.route});
   }
 
   onDelete(id: number) {
     console.log(id);
+    this.onDeleteSubscription = this.categoryService.deleteCategory(id)
+      .subscribe({
+        next: (resposne: any)=>{
+          if(resposne.Success){
+            this.getAll();
+          }
+        },
+        error: (err)=>{
+          console.log(err);
+        }
+      });
   }
 }

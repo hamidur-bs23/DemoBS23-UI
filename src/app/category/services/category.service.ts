@@ -8,8 +8,6 @@ import { DataService } from 'src/app/services/data.service';
 
 import { Category } from 'src/app/models/category.model';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +36,18 @@ export class CategoryService extends DataService {
     const url: string = environment.appBaseUrl + "/product/category/add";
 
     return super.create(url, newCategory);
+  }
+
+  updateCategory(categoryForUpdate: Category){
+    const url: string = environment.appBaseUrl + "/product/category/update";
+
+    return super.update(url, categoryForUpdate)
+  }
+
+  deleteCategory(id: number){
+    const url: string = environment.appBaseUrl + "/product/category/delete";
+
+    return super.delete(url, id);
   }
 
 }

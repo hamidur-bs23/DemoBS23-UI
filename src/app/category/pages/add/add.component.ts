@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Category } from 'src/app/models/category.model';
+import { Subscription } from 'rxjs';
+
 import { CategoryService } from '../../services/category.service';
+
+import { Category } from 'src/app/models/category.model';
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.scss']
 })
-export class AddComponent implements OnInit {
+export class AddComponent implements OnInit, OnDestroy {
 
-  newCategory: Category = {id: 0, name: 'Hamid'}
+  newCategory: Category;
+
+  createCategorySubscription: Subscription;
 
   constructor(
     private categoryService: CategoryService,
@@ -19,21 +24,25 @@ export class AddComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
+  ngOnDestroy(): void {
+      if(this.createCategorySubscription)
+        this.createCategorySubscription.unsubscribe();
+  }
 
-  onCreate(data: any){
-    console.log(data);
-    this.newCategory.name = data.categoryName;
+  onCreate(formValue: Category){
 
-    this.categoryService.createCategory(this.newCategory)
-      .subscribe({
-        next: (response: any)=>{
-          console.log(response);
+    this.createCategorySubscription = this.categoryService.createCategory(formValue)
+    .subscribe({
+      next: (response: any)=>{
+        if(response.Success){
           this.router.navigate(['../'], {relativeTo: this.route});
-        },
-        error: (err)=>{
-          console.log(err);
         }
-      });
+      },
+      error: (err)=>{
+        console.log(err);
+      }
+    });
   }
 
 }

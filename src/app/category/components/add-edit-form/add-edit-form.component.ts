@@ -1,88 +1,69 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { CategoryService } from '../../services/category.service';
+
+import { Category } from 'src/app/models/category.model';
 
 @Component({
-  selector: 'app-add-edit-form',
+  selector: 'add-edit-form',
   templateUrl: './add-edit-form.component.html',
   styleUrls: ['./add-edit-form.component.scss']
 })
 export class AddEditFormComponent implements OnInit {
 
- 
   addEditForm: FormGroup;
 
-  id: string;
-  isEditMode: boolean;
-  isLoading: boolean = false;
-  isSubmitted: boolean = false;
+  @Input('isEdit') isEditMode: boolean = false;
+  @Input('dataForEdit') dataForEdit: any = null;
 
-  idSubscription: Subscription;
-
-  @Output('addCategoryEvent') addCategoryEvent = new EventEmitter<any>();
+  @Output('editEvent') editEvent = new EventEmitter<any>();
+  @Output('addEvent') addEvent = new EventEmitter<Category>();
 
   constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private categoryService: CategoryService) {
-    
-   }
+    private fb: FormBuilder) {
 
+  }
+ 
   ngOnInit(): void {
 
-    this.idSubscription = this.route.paramMap.subscribe({
-      next: (params: any)=>{
-        
-        this.id = params.get('id');
+      this.createForm();
 
-        if(this.id){
-          this.isEditMode = true;
-        }else{
-          this.isEditMode = false;
-        }
-        
-      },
-      error: (err)=>{
-        console.log(err);
+      if(this.isEditMode && this.dataForEdit){
+        this.populateForm();
       }
-    });
-
-    this.createForm();
+      
   }
 
-  ngOnDestroy(): void {
-      if(this.idSubscription)
-        this.idSubscription.unsubscribe();
+  onSubmit(){
+    if(this.isEditMode){
+      this.onUpdate();
+    } else {
+      this.onCreate();
+    }
   }
 
   createForm(){
     this.addEditForm = this.fb.group({
-      categoryName: ['', [Validators.required]]
+      id: [''],
+      name: ['', [Validators.required]]
     });
   }
 
-  onSubmit(){
+  populateForm(){
+    this.addEditForm.patchValue({
+      id: this.dataForEdit.Id,
+      name: this.dataForEdit.Name
+    });
+  }
 
+  onUpdate(){
     if(this.addEditForm.valid){
-      
-      if(this.isEditMode){
-        this.edit();
-      } else {
-        this.add();
-      }
-
+      this.editEvent.emit(this.addEditForm.value);
     }
-    return;
   }
 
-  private add(){
-    this.addCategoryEvent.emit(this.addEditForm.value);
+  onCreate(){
+    if(this.addEditForm.valid){
+      this.addEvent.emit(this.addEditForm.value as Category);
+    }
   }
-
-  private edit(){
-    console.log("EDIT - ", this.addEditForm.value);
-  }
-
 }
