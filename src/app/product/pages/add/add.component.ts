@@ -28,7 +28,7 @@ export class AddComponent implements OnInit, OnDestroy {
   }
 
   onSave(newProduct: any){
-    this.productService.createProduct(newProduct)
+    this.onSaveSubscription = this.productService.createProduct(newProduct)
       .subscribe({
         next: (response: any)=>{
           

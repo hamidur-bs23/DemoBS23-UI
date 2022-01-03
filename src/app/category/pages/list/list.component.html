@@ -13,20 +13,23 @@
           <h2 class="heading">Category List</h2>
       
           <ul class="list-group">
-            <li
-              [routerLink]="[item.Id]"
-              *ngFor="let item of categories; let idx = index"
-              class="list-item"
-            >
-
-            <div class="image">
-              <img [src]="imagePath" [alt]="item.Name">
-            </div>
-            <div class="content">
-              <h4 class="title">Name: {{ item.Name }} - ({{ item.Id }})</h4>
-            </div>
-
-            </li>
+            <li *ngFor="let item of categories; let idx = index" class="list-item">
+          
+              <div class="image" [routerLink]="[item.Id]">
+                <img [src]="imagePath" [alt]="item.Name" />
+              </div>
+              <div class="content-wrapper">
+                <div class="content" [routerLink]="[item.Id]">
+                  <h4 class="title">Name: {{ item.Name }} - ({{ item.Id }})</h4>
+                </div>
+                <div class="btn-group">
+                  <button class="btn" [routerLink]="[item.Id]" >View</button>
+                  <button class="btn" (click)="onEdit(item)">Edit</button>
+                  <button class="btn" (click)="onDelete(item.Id)">Delete</button>
+                </div>
+              </div>
+      
+          </li>
           </ul>
         </div>
   </ng-template>

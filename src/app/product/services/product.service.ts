@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DataService } from 'src/app/services/data.service';
@@ -37,7 +37,7 @@ export class ProductService extends DataService {
     return super.get(url)
       .pipe(
         map((response: any)=>{
-          console.log(response);
+          //console.log(response);
           return response.Data as Product;
         })
       );
@@ -65,4 +65,14 @@ export class ProductService extends DataService {
     return super.delete(url, id);
 
    }
+
+
+
+  //  private currentProductBehaviorSubject = new BehaviorSubject<Product>(null);
+  //  currentProduct$ = this.currentProductBehaviorSubject.asObservable();
+
+  //  changeCurrentProduct(newProduct: Product){
+  //    this.currentProductBehaviorSubject.next(newProduct);
+  //  }
+
 }

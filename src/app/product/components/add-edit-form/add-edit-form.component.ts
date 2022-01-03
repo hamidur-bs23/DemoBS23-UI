@@ -1,9 +1,12 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { first, Subscription } from 'rxjs';
-import { Product } from 'src/app/models/product.model';
+import { first, forkJoin, map, Subscription } from 'rxjs';
+
+import { CategoryService } from 'src/app/category/services/category.service';
 import { ProductService } from '../../services/product.service';
+
+import { Product } from 'src/app/models/product.model';
 
 @Component({
   selector: 'app-add-edit-form',
@@ -15,11 +18,15 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   id: number;
+  categories: any[] = [];
   isEditMode: boolean;
   isLoading: boolean = false;
   isSubmitted: boolean = false;
 
   idSubscription: Subscription;
+  categorySubscription: Subscription;
+  productSubscription: Subscription;
+  
 
   @Output('addEvent') addEvent = new EventEmitter<any>();
   @Output('editEvent') editEvent = new EventEmitter<any>();
@@ -29,7 +36,8 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private productService: ProductService) {
+    private productService: ProductService,
+    private categoryService: CategoryService) {
 
     
 
@@ -37,7 +45,10 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.idSubscription = this.route.paramMap.subscribe({
+    this.createForm();
+
+    this.idSubscription = this.route.paramMap
+    .subscribe({
       next: (params: any) => {
 
         this.id = params.get('id');
@@ -56,8 +67,19 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.categorySubscription = this.categoryService.getAllCategories()
+    .subscribe({
+      next: (response: any)=>{
+        this.categories = response.Data;
+        //console.log(this.categories);
+      },
+      error: (err)=>{
+        console.log(err);
+      }
+    })
 
-    this.createForm();
+
+    
     
 
     if (this.isEditMode) {
@@ -77,7 +99,7 @@ export class AddEditFormComponent implements OnInit, OnDestroy {
           error: (err) => {
             console.log(err);
           }
-        })
+        });
 
     }
   }

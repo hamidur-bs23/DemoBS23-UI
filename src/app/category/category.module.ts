@@ -9,6 +9,7 @@ import { EditComponent } from './pages/edit/edit.component';
 import { ListComponent } from './pages/list/list.component';
 import { ViewComponent } from './pages/view/view.component';
 import { AddEditCategoryFormComponent } from './components/add-edit-category-form/add-edit-category-form.component';
+import { AddEditFormComponent } from './components/add-edit-form/add-edit-form.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { AddEditCategoryFormComponent } from './components/add-edit-category-for
     EditComponent,
     ListComponent,
     ViewComponent,
-    AddEditCategoryFormComponent
+    AddEditCategoryFormComponent,
+    AddEditFormComponent,
   ],
   imports: [
     CommonModule,

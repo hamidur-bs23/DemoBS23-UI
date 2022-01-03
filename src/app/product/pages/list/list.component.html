@@ -1,11 +1,9 @@
-
-
 <div class="section">
-    <div class="btn-group">
-      <button [routerLink]="['add']" class="btn">Add New Product</button>
-    </div>
-  
-    <!-- <table>
+  <div class="btn-group">
+    <button [routerLink]="['add']" class="btn">Add New Product</button>
+  </div>
+
+  <!-- <table>
           <thead>
               <tr>
                   <th>Id</th>
@@ -20,38 +18,40 @@
   
           </tbody>
       </table> -->
- 
-    <div *ngIf="!products; else displayBlock">
-        <h2 class="heading">No items to show!</h2>
-    </div>
-    <ng-template #displayBlock>
-        <div class="items-wrapper">
-            <h2 class="heading">Products List</h2>
-        
-            <ul class="list-group">
-              <li
-                [routerLink]="[item.Id]"
-                *ngFor="let item of products; let idx = index"
-                class="list-item"
-              >
 
-              <div class="image">
-                <img [src]="imagePath" [alt]="item.Name">
-              </div>
-              <div class="content">
+  <div *ngIf="!products; else displayBlock">
+    <h2 class="heading">No items to show!</h2>
+  </div>
+  <ng-template #displayBlock>
+    <div class="items-wrapper">
+      <h2 class="heading">Products List</h2>
+
+      <ul class="list-group">
+        <li *ngFor="let item of products; let idx = index" class="list-item">
+          
+            <div class="image" [routerLink]="[item.Id]">
+              <img [src]="imagePath" [alt]="item.Name" />
+            </div>
+            <div class="content-wrapper">
+              <div class="content" [routerLink]="[item.Id]">
                 <h4 class="title">Name: {{ item.Name }} - ({{ item.Id }})</h4>
                 <div>
                   <span class="price">Price: {{ item.Price }}</span>
-                  <span class="categoryName">Category: {{ item. CategoryName }}</span>
+                  <span class="categoryName"
+                    >Category: {{ item.CategoryName }}</span
+                  >
                 </div>
-                
                 <p class="description">Description: {{ item.Description }}</p>
               </div>
-
-              </li>
-            </ul>
-          </div>
-    </ng-template>
-
-  </div>
-  
+              <div class="btn-group">
+                <button class="btn" [routerLink]="[item.Id]" >View</button>
+                <button class="btn" (click)="onEdit(item)">Edit</button>
+                <button class="btn" (click)="onDelete(item.Id)">Delete</button>
+              </div>
+            </div>
+    
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+</div>

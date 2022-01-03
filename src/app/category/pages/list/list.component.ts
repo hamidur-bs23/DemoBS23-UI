@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Category } from 'src/app/models/category.model';
 import { CategoryService } from '../../services/category.service';
 
 @Component({
@@ -15,8 +17,12 @@ export class ListComponent implements OnInit, OnDestroy {
 
   private getAllCategoriesSubscription: Subscription;
 
-  constructor(private categoryService: CategoryService) {
-    this.getAllCategoriesSubscription = new Subscription();
+  constructor(
+    private categoryService: CategoryService,
+    private router: Router,
+    private route: ActivatedRoute) {
+    
+      this.getAllCategoriesSubscription = new Subscription();
    }
 
   ngOnInit(): void {
@@ -39,5 +45,15 @@ export class ListComponent implements OnInit, OnDestroy {
           console.log(err);
         }
       });
+  }
+
+  onEdit(categoryForUpdate:any) {
+    //console.log("onEditClicked - ", categoryForUpdate, categoryForUpdate.Id);
+
+    this.router.navigate(['./', categoryForUpdate.Id, 'edit'], {relativeTo: this.route});
+  }
+
+  onDelete(id: number) {
+    console.log(id);
   }
 }
