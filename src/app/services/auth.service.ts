@@ -10,15 +10,16 @@ export class AuthService extends DataService {
   
   private isAuthenticate = false;
 
-  private userSubject$;
-  public get getUser(): Observable<User>{
-    return this.userSubject$.asObservable();
+  private _userSubject;
+  
+  public get getUser$(): Observable<User>{
+    return this._userSubject.asObservable();
   }
 
   constructor(http: HttpClient) { 
     super(http);
 
-    this.userSubject$ = new BehaviorSubject<User>({email: ""});
+    this._userSubject = new BehaviorSubject<User>({email: ""});
   }
 
   register(newUser : UserRegistrationModel) {
@@ -41,7 +42,7 @@ export class AuthService extends DataService {
           email: email
         }
           
-        this.userSubject$.next(user);
+        this._userSubject.next(user);
 
         return response;
       }));
@@ -58,7 +59,7 @@ export class AuthService extends DataService {
           this.isAuthenticate = false;
         }
 
-        this.userSubject$.next({email: ""});
+        this._userSubject.next({email: ""});
   }
 
   getUserFromAPI(): Observable<any>{
@@ -68,7 +69,7 @@ export class AuthService extends DataService {
   }
 
   saveUserFromAppConfig(userData: User){
-    this.userSubject$.next(userData);
+    this._userSubject.next(userData);
     //console.log(this.userSubject$.value);
   }
 

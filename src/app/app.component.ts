@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { User } from './models/user.model';
+
 import { AppConfigService } from './services/app-config.service';
 import { AuthService } from './services/auth.service';
+
+import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +12,10 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'DemoBS23-UI';
+  title = 'Welcome to Shopper (Demo Shop)';
 
   user: User = {email: ""};
+
   getUserSubscription: Subscription;
 
   constructor(private authService: AuthService) {
@@ -21,10 +24,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getUserSubscription = this.authService.getUser
+    this.getUserSubscription = this.authService.getUser$
       .subscribe({
-        next: (userData: User)=>{
-          this.user.email = userData.email;
+        next: (userData: any)=>{
+          this.user.email = userData.Email;
+          console.log("User Data - ", this.user);
         },
         error: (err)=>{
           this.user.email = "";

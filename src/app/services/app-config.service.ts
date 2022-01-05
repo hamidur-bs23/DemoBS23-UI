@@ -18,8 +18,9 @@ export class AppConfigService {
     async getUserFromAPI(){
         this.authService.getUserFromAPI()
             .subscribe({
-                next: (userData: User)=>{
+                next: (userData)=>{
                     this.authService.saveUserFromAppConfig(userData);
+                    console.log("User Data - ", userData);
                 },
                 error: (err)=>{
                     console.log(err);

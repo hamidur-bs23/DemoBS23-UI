@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  msg = "Welcome to DemoBS23 Project!";
+  msg = "Welcome to Shopper (Demo Shop)";
 
   constructor() { }
 

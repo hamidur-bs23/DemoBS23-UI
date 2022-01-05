@@ -22,13 +22,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 
 
-const appInitializerFn = (appConfigService: AppConfigService) => {
-  return async () => {
-    console.log("App Init....START");
-    await appConfigService.loadAppConfig();
-    console.log("App Init....FINISH???");
-  }
-}
+const appInitializerFn = (appConfigService: AppConfigService) => () => appConfigService.loadAppConfig();
 
 
 @NgModule({
