@@ -1,5 +1,6 @@
 import { ErrorHandler, NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +11,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AppConfigService } from './services/app-config.service';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppErrorHandler } from './common/error-exceptions/app-error-handler';
 
@@ -37,23 +39,26 @@ const appInitializerFn = (appConfigService: AppConfigService) => () => appConfig
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ],
   providers: [
     AuthGuard,
     AuthService,
     AppConfigService,
+
     { provide: ErrorHandler, useClass: AppErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFn,
-      multi: true,
-      deps: [AppConfigService]
-    }
+    { provide: APP_INITIALIZER, useFactory: appInitializerFn, multi: true, deps: [AppConfigService] }
   ],
   bootstrap: [AppComponent]
 })

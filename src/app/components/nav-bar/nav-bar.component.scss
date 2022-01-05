@@ -1,9 +1,10 @@
 .navbar {
-  nav{
+  border-bottom: 0.25rem solid rgba(0, 0, 255, 0.5);
+  background-color: rgba(0, 0, 255, 0.1);
+  nav {
     display: flex;
     padding: 1rem;
   }
-  background-color: rgba(0, 0, 255, 0.05);
   ul {
     list-style-type: none;
     padding: 0;
@@ -14,7 +15,7 @@
     align-content: center;
     font-weight: bold;
 
-    &.right{
+    &.right {
       margin-left: auto !important;
     }
     li {
@@ -27,13 +28,13 @@
         }
       }
 
-      &.user{
+      &.user {
         text-transform: initial;
         font-size: 70%;
         border: 1px solid;
         border-radius: 4px;
         align-content: center;
-        span{
+        span {
           height: 100%;
           display: flex;
           align-items: center;
@@ -52,7 +53,7 @@
       transition: 0.2s all ease-in-out;
       font-size: 70%;
 
-      &.active{
+      &.active {
         border-color: black;
         border-color: inherit;
       }

@@ -1,0 +1,74 @@
+.banner {
+  background-color: rgba(0, 0, 255, 0.1);
+}
+
+ul.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  .card {
+    border: 2px solid rgba(0, 0, 255, 0.075);
+    border-radius: 4px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 1rem;
+    width: 300px;
+    min-height: 500px;
+    transition: 0.2s all ease-in-out;
+    &:hover {
+      border-color: rgba(0, 0, 255, 0.75);
+      .image img {
+        transform: scale(1.01);
+      }
+    }
+  }
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: 0.2s all ease-in-out;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.content {
+  display: flex;
+  flex-flow: column;
+  background-color: rgba(0, 0, 255, 0.05);
+  width: 100%;
+  flex: 1 1 auto;
+  align-items: center;
+  padding: 2rem 1rem;
+  .heading {
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+  .price {
+    margin-right: 1rem;
+    padding-left: 1.1rem;
+    position: relative;
+    font-weight: bold;
+    &::after {
+      content: "$";
+      position: absolute;
+      left: 0;
+    }
+  }
+  .description {
+    margin-top: 1rem;
+  }
+  .info {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}

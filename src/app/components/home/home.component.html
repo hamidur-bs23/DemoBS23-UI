@@ -1,3 +1,24 @@
-<div class="section home-section">
-    <h2 class="heading">{{msg}}</h2>
+<div class="section banner">
+  <h2 class="heading">{{ msg }}</h2>
+</div>
+
+<div class="section product-section">
+  <h2 class="heading" *ngIf="products.length > 0">All Products</h2>
+  <h2 class="heading" *ngIf="products.length < 0">No Products</h2>
+
+  <ul class="cards">
+    <li *ngFor="let item of products" class="card">
+      <div class="image">
+        <img [src]="imagePath" alt="" />
+      </div>
+      <div class="content">
+        <h4 class="heading">{{ item.Name }} ({{ item.Id }})</h4>
+        <div class="info">
+          <p class="price">{{ item.Price }}</p>
+          <p class="category">{{ item.CategoryName }}</p>
+        </div>
+        <p class="description">{{ item.Description }}</p>
+      </div>
+    </li>
+  </ul>
 </div>
