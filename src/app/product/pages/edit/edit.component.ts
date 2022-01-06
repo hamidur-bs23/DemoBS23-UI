@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from 'src/app/models/product.model';
+
 import { ProductService } from '../../services/product.service';
+import { AppToastrService } from 'src/app/services/app-toastr.service';
+
+import { Product } from 'src/app/models/product.model';
+import { AppError } from 'src/app/common/error-exceptions/app-error';
 
 @Component({
   selector: 'app-edit',
@@ -13,8 +17,8 @@ export class EditComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router,
+    private appToastrService: AppToastrService) { }
 
   ngOnInit(): void {
   }
@@ -24,20 +28,17 @@ export class EditComponent implements OnInit {
 
       this.productService.updateProduct(editedProduct)
       .subscribe({
-        next: (response: any)=>{
-  
+        next: (response: any)=>{  
           console.log(response);
-          alert("Update successful");
+          this.appToastrService.showInfo("Edit Succesful", "Update");
   
           this.router.navigate(['../'], {relativeTo: this.route});
         },
-        error: (err)=>{
+        error: (err: AppError)=>{
           console.log(err);
+          this.appToastrService.showErrorBasedOnAppErrorInstance(err);
         }
       })
-
     }
-
   }
-
 }

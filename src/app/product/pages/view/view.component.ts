@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 
 import { Product } from 'src/app/models/product.model';
+import { AppToastrService } from 'src/app/services/app-toastr.service';
+import { AppError } from 'src/app/common/error-exceptions/app-error';
 
 @Component({
   selector: 'app-view',
@@ -22,7 +24,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private appToastrService: AppToastrService) {
 
    }
 
@@ -59,8 +62,9 @@ export class ViewComponent implements OnInit, OnDestroy {
         
         console.log(this.product);
       },
-      error: (err)=>{
+      error: (err: AppError)=>{
         console.log(err);
+        this.appToastrService.showErrorBasedOnAppErrorInstance(err);
       }
     });
   }
@@ -72,14 +76,14 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.productService.deleteProduct(this.id)
         .subscribe({
           next: (response: any)=>{
-
             console.log(response)
-            alert("Deleted successful");
+            this.appToastrService.showError("Deleted successfully", "Delete");
 
             this.router.navigate(['../'], {relativeTo: this.route});
           },
           error: (err)=>{
             console.log(err);
+            this.appToastrService.showErrorBasedOnAppErrorInstance(err);
           }
         })
     }

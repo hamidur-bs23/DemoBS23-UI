@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { AuthService } from 'src/app/services/auth.service';
+import { AppToastrService } from 'src/app/services/app-toastr.service';
+
 import { AppError } from 'src/app/common/error-exceptions/app-error';
 import { BadInputError } from 'src/app/common/error-exceptions/bad-input-error';
+
 import { UserRegistrationModel } from 'src/app/models/user-registration.model';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +20,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private appToastrService: AppToastrService) { }
 
   ngOnInit(): void {
   }
@@ -39,24 +44,16 @@ export class RegisterComponent implements OnInit {
 
           if(response['Token']){
             sessionStorage.setItem('token', response['Token']);
-
+            
+            this.appToastrService.showSuccess("Registration Successful", "Registration");
+            
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/login';
             this.router.navigateByUrl(returnUrl);
 
           }
         },
         error: (err: AppError) => {
-          if(err instanceof BadInputError) {
-            console.log(err);  
-
-            var errs: [] = err.originalError['error'].errors || err.originalError['error'].Errors;
-            for(let e in errs){
-              console.log(String(errs[e]));
-            }
-
-          } else {
-            console.log("Unexpected user registration error!", err.originalError);
-          }
+          this.appToastrService.showErrorBasedOnAppErrorInstance(err);
         }
       });
   }

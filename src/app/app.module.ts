@@ -6,12 +6,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AppConfigService } from './services/app-config.service';
-import { ToastrModule } from 'ngx-toastr';
+import { AppToastrService } from './services/app-toastr.service';
 
 import { AppErrorHandler } from './common/error-exceptions/app-error-handler';
 
@@ -47,13 +48,14 @@ const appInitializerFn = (appConfigService: AppConfigService) => () => appConfig
 
     ToastrModule.forRoot({
       timeOut: 10000,
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-center',
       preventDuplicates: true,
     })
   ],
   providers: [
     AuthGuard,
     AuthService,
+    AppToastrService,
     AppConfigService,
 
     { provide: ErrorHandler, useClass: AppErrorHandler },

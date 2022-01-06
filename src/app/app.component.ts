@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { User } from './models/user.model';
-import { AppConfigService } from './services/app-config.service';
+import { ToastrService } from 'ngx-toastr'; 
+
 import { AuthService } from './services/auth.service';
+import { AppConfigService } from './services/app-config.service';
+
+import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +18,9 @@ export class AppComponent implements OnInit {
   user: User = {email: ""};
   getUserSubscription: Subscription;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private toastrService: ToastrService) {
 
   }
 

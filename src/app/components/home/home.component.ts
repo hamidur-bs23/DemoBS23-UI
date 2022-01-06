@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProductService } from 'src/app/product/services/product.service';
+import { AppToastrService } from 'src/app/services/app-toastr.service';
 
 import { Product } from 'src/app/models/product.model';
 
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   getAllProductsSubscription: Subscription;
 
   constructor(
-    private productService: ProductService) { }
+    private productService: ProductService,
+    private appToastrService: AppToastrService) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -35,10 +37,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: Product[])=>{
           console.log(response);
+
           this.products = response;
         },
         error: (err)=>{
           console.log(this.products);
+          this.appToastrService.showErrorBasedOnAppErrorInstance(err);
         }
       })
   }

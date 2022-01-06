@@ -4,8 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { ProductService } from '../../services/product.service';
+import { AppToastrService } from 'src/app/services/app-toastr.service';
 
 import { Product } from 'src/app/models/product.model';
+import { AppError } from 'src/app/common/error-exceptions/app-error';
 
 @Component({
   selector: 'app-list',
@@ -23,7 +25,8 @@ export class ListComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private productService: ProductService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private appToastrService: AppToastrService) {
 
   }
 
@@ -59,7 +62,6 @@ export class ListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onEdit(productToUpdate: Product) {
-
     console.log(productToUpdate);
     this.router.navigate(['./', productToUpdate.Id, 'edit'], { relativeTo: this.route });
 
@@ -72,13 +74,15 @@ export class ListComponent implements OnInit, OnDestroy, OnChanges {
         .subscribe({
           next: (response: any) => {
             console.log(response);
+            this.appToastrService.showWarning("Deleted Successful", "Delete");
 
             this.getAllProducts();
 
             this.router.navigate(['/product']);
           },
-          error: (err: any) => {
+          error: (err: AppError) => {
             console.log(err);
+            this.appToastrService.showErrorBasedOnAppErrorInstance(err);
           }
         });
 

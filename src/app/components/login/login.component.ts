@@ -1,10 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { first, NotFoundError, Subscription } from 'rxjs';
+
+import { AuthService } from 'src/app/services/auth.service';
+import { AppToastrService } from 'src/app/services/app-toastr.service';
+
 import { AppError } from 'src/app/common/error-exceptions/app-error';
 import { BadInputError } from 'src/app/common/error-exceptions/bad-input-error';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +23,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private appToastrService: AppToastrService) {
       this.loginSubscription = new Subscription;
      }
 
@@ -41,28 +46,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginSubscription = this.authService.login(email, password)
       .pipe(first())
       .subscribe({
-        next: (response: any) => {
 
-          alert("Thank you for login");
+        next: (response: any) => {
+          this.appToastrService.showSuccess("Loggin succesful", `${email}`);
 
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigateByUrl(returnUrl);
-
         },
+
         error: (err: AppError) => {
-
-          if(err instanceof BadInputError) {
-            console.log("Bad Input Error - ", err.originalError);  
-            alert("Bad Input Error");          
-          } else if(err instanceof NotFoundError) {
-            console.log("Not Found Error - ", err.originalError)
-            alert("Not Found Error");
-          } else {
-            // throw err;
-            console.log("Unexpected Error - ", err);
-            alert("Unexpected Error");
-          }
-
+          this.appToastrService.showErrorBasedOnAppErrorInstance(err);
         }
       });
   }
